@@ -13,3 +13,6 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: demo-app
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
