@@ -22,6 +22,13 @@ spec:
           - name: http
             containerPort: 80
             protocol: TCP
+          volumeMounts:
+            - name: demo-app-config
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: demo-app-config
+          configMap:
+            name: demo-app-config
 
   strategy:
     canary:
