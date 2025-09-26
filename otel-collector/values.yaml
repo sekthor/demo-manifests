@@ -11,15 +11,17 @@ config:
         http:
 
   exporters:
-    # Logs → Loki (send to the gateway service, port 80)
-    loki:
-      endpoint: http://grafana-lgtm-loki-gateway/loki/api/v1/push
+    # Logs → Loki via OTLP → Loki Gateway
+    otlphttp/loki:
+      endpoint: http://grafana-lgtm-loki-gateway/otlp
+      tls:
+        insecure: true
 
-    # Metrics → Mimir (use nginx frontend, port 80)
+    # Metrics → Mimir (via nginx frontend)
     prometheusremotewrite:
       endpoint: http://grafana-lgtm-mimir-nginx/api/v1/push
 
-    # Traces → Tempo (OTLP gRPC, distributor service on port 4317)
+    # Traces → Tempo (via distributor, OTLP gRPC on 4317)
     otlp/tempo:
       endpoint: grafana-lgtm-tempo-distributor:4317
       tls:
@@ -29,7 +31,7 @@ config:
     pipelines:
       logs:
         receivers: [otlp]
-        exporters: [loki]
+        exporters: [otlphttp/loki]
 
       metrics:
         receivers: [otlp]
