@@ -15,7 +15,6 @@ spec:
     namespace: demo-app
   syncPolicy:
     automated: 
-      enable: true
       prune: true
       selfHeal: true
     syncOptions:
