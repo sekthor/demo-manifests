@@ -10,11 +10,11 @@ spec:
       repoURL: https://grafana.github.io/helm-charts
       targetRevision: 2.1.0
       helm:
-    #    valueFiles:
-    #      - $values/grafana-lgtm/values.yaml
-    #- repoURL: 'https://github.com/sekthor/demo-manifests.git'
-    #  targetRevision: main
-    #  ref: values
+        valuesObject:
+          tempo:
+            ingester:
+              ring:
+                replication_factor: 1
   destination:
     server: "https://kubernetes.default.svc"
     namespace: grafana
