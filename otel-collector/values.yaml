@@ -7,21 +7,18 @@ config:
   receivers:
     otlp:
       protocols:
-        grpc:
-        http:
+        grpc: {}
+        http: {}
 
   exporters:
-    # Logs → Loki via OTLP → Loki Gateway
     otlphttp/loki:
       endpoint: http://grafana-lgtm-loki-gateway/otlp
       tls:
         insecure: true
 
-    # Metrics → Mimir (via nginx frontend)
     prometheusremotewrite:
       endpoint: http://grafana-lgtm-mimir-nginx/api/v1/push
 
-    # Traces → Tempo (via distributor, OTLP gRPC on 4317)
     otlp/tempo:
       endpoint: grafana-lgtm-tempo-distributor:4317
       tls:
