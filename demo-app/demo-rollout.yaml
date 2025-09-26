@@ -32,6 +32,7 @@ spec:
 
   strategy:
     canary:
+      stableService: demo-app
       canaryService: demo-app-canary
       steps:
       - setWeight: 20
