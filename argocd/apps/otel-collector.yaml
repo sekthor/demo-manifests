@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: otel-collector
+  namespace: argocd
+
+spec:
+  project: default
+
+  sources:
+    - chart: opentelemetry-collector
+      repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+      targetRevision: 0.136.0
+      helm:
+        valueFiles:
+          - $values/otel-collector/values.yaml
+
+    - repoURL: 'https://github.com/sekthor/demo-manifests.git'
+      targetRevision: main
+      ref: values
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: grafana
+
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
