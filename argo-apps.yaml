@@ -1,21 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argo-apps
   namespace: argocd
 spec:
   project: default
   sources:
-    - chart: argo-cd
-      repoURL: oci://ghcr.io/argoproj/argo-helm/argo-cd
-      targetRevision: 8.5.6
-      helm:
-        releaseName: argocd
-        valueFiles:
-          - $values/argocd/values.yaml
     - repoURL: 'https://github.com/sekthor/demo-manifests.git'
       targetRevision: main
-      ref: values
+      path: argocd/apps
   destination:
     server: "https://kubernetes.default.svc"
     namespace: argocd

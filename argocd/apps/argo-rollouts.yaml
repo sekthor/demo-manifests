@@ -1,18 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argo-rollouts
   namespace: argocd
 spec:
   project: default
   sources:
-    - chart: argo-cd
-      repoURL: oci://ghcr.io/argoproj/argo-helm/argo-cd
-      targetRevision: 8.5.6
+    - chart: argo-rollouts
+      repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: 2.40.4
       helm:
-        releaseName: argocd
+        releaseName: argo-rollouts
         valueFiles:
-          - $values/argocd/values.yaml
+          - $values/argo-rollouts/values.yaml
     - repoURL: 'https://github.com/sekthor/demo-manifests.git'
       targetRevision: main
       ref: values
